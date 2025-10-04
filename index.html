@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lighter Project Quiz</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #0d1117;
+      color: #c9d1d9;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #58a6ff;
+    }
+
+    .question-box {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      background: #161b22;
+    }
+
+    .question {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .options label {
+      display: block;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      font-size: 16px;
+      background: #238636;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #2ea043;
+    }
+
+    #result {
+      margin-top: 40px;
+      padding: 20px;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      background: #161b22;
+    }
+
+    .correct-answer {
+      color: #58a6ff;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #8b949e;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>⚡ Lighter Project Awareness Quiz</h1>
+
+    <form id="quizForm">
+
+      <!-- Question Template -->
+      <!-- Repeat this block for all 10 questions -->
+    </form>
+
+    <button class="btn" onclick="submitQuiz()">Submit Quiz</button>
+
+    <div id="result"></div>
+
+    <div class="footer">
+      &copy; 2025 Lighter Project Quiz | Built for awareness
+    </div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "1. What is the primary function of Lighter?",
+        options: ["NFT Minting", "Perpetual Trading on Ethereum L2", "Decentralized Chat Application", "Bitcoin Wallet Service"],
+        correct: 1
+      },
+      {
+        question: "2. What technology does Lighter use for verifiable matching and liquidations?",
+        options: ["Proof of Work", "Sidechains", "ZK Circuits (Zero-Knowledge)", "Proof of Stake"],
+        correct: 2
+      },
+      {
+        question: "3. On which network does Lighter operate?",
+        options: ["Solana", "Polygon", "Ethereum Layer 2", "Bitcoin"],
+        correct: 2
+      },
+      {
+        question: "4. How long was Lighter in private beta before public mainnet launch?",
+        options: ["2 months", "4 months", "6 months", "8 months"],
+        correct: 3
+      },
+      {
+        question: "5. What does Lighter aim to optimize for traders?",
+        options: ["Trading memes", "Yield farming", "High-frequency trading performance", "NFT staking"],
+        correct: 2
+      },
+      {
+        question: "6. When was the Lighter Twitter (X) account created?",
+        options: ["December 2020", "December 2022", "January 2023", "October 2023"],
+        correct: 1
+      },
+      {
+        question: "7. What is the main benefit of using Lighter over traditional on-chain trading platforms?",
+        options: ["High gas fees", "Centralized control", "Low latency and low costs", "Multi-chain swaps"],
+        correct: 2
+      },
+      {
+        question: "8. What type of trading does Lighter focus on?",
+        options: ["Spot trading", "NFT auctions", "Perpetual contracts", "Tokenized real estate"],
+        correct: 2
+      },
+      {
+        question: "9. What is the official website of the Lighter project?",
+        options: ["lighter.com", "lighter.eth", "lighter.xyz", "ltr.io"],
+        correct: 2
+      },
+      {
+        question: "10. Why should users consider joining Lighter?",
+        options: ["For mining rewards", "To trade perpetuals efficiently with lower costs on Ethereum L2", "To stake Bitcoin", "For governance token airdrops"],
+        correct: 1
+      }
+    ];
+
+    // Render questions
+    const form = document.getElementById("quizForm");
+
+    quizData.forEach((q, i) => {
+      const qBox = document.createElement("div");
+      qBox.className = "question-box";
+      qBox.innerHTML = `
+        <div class="question">${q.question}</div>
+        <div class="options">
+          ${q.options.map((opt, idx) => `
+            <label>
+              <input type="radio" name="question${i}" value="${idx}"> ${opt}
+            </label>
+          `).join("")}
+        </div>
+      `;
+      form.appendChild(qBox);
+    });
+
+    // Handle quiz submission
+    function submitQuiz() {
+      let score = 0;
+      const resultBox = document.getElementById("result");
+      resultBox.innerHTML = "<h2>🧠 Quiz Results</h2>";
+      quizData.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question${i}"]:checked`);
+        const userAnswer = selected ? parseInt(selected.value) : null;
+
+        if (userAnswer === q.correct) score++;
+
+        const correctText = q.options[q.correct];
+        resultBox.innerHTML += `
+          <p><strong>${q.question}</strong><br>
+          ✅ Correct Answer: <span class="correct-answer">${correctText}</span><br>
+          ${userAnswer === q.correct ? "✔️ Your answer was correct!" : "❌ Your answer was incorrect."}
+          </p>
+        `;
+      });
+
+      resultBox.innerHTML = `<h2>🎉 You scored ${score} out of ${quizData.length}!</h2>` + resultBox.innerHTML;
+
+      // Disable all inputs
+      document.querySelectorAll("input[type='radio']").forEach(input => input.disabled = true);
+      document.querySelector(".btn").disabled = true;
+    }
+  </script>
+</body>
+</html>
